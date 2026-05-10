@@ -1,36 +1,83 @@
-import { pkgmanager } from "@/types/common"
-import { execSync } from "child_process"
-import { mkdirSync } from "fs"
-import path from  "path"
-  import fs from "fs";
+import {type pkgmanager } from "@/types/common"
+import { writeFile } from "fs/promises";
+import { writeFileSync } from "fs";
+import { eslintJs,eslintTs } from "@/constants/express";
+import { addDevPackage, moduleExecutor, addScripts, removeFile } from "./common";
+import { frameworkBoilerPlateJs as serverJs,frameworkBoilerPlateTs as serverTs,tsconfig } from "@/constants/express";
+import { initializeProject } from "./common";
+import { addPackage } from "./common";
+import { createRepo } from "./common";
 
-export const updateScriptJS = (runtime:string) => {
-  
-  const path = "./package.json";
-  
-  // 1. read package.json
-  const pkg = JSON.parse(fs.readFileSync(path, "utf-8"));
-  
-  // 2. ensure scripts exists
-  pkg.scripts = pkg.scripts || {};
-  
-  // 3. add your script
-  pkg.scripts.start = `${runtime} dist/index.js`;
-  
-  // 4. write back
-  fs.writeFileSync(path, JSON.stringify(pkg, null, 2));
+export const expressServer = async ({ manager, ts }: { manager: pkgmanager, ts: boolean }) => {
+  initializeProject(manager)
+  removeFile("index.ts")
+  addPackage(manager, 'express')
+  createRepo("src")
+  if (ts) {
+    addDevPackage(manager, "typescript ts-node nodemon @types/node @types/express")
+    moduleExecutor(manager,"tsc --init")
+    await writeFile("src/index.ts", serverTs)
+    await writeFile("tsconfig.json", tsconfig)
+     addDevScripts(ts,manager == 'bun' ? 'bun' : 'node')
+  } 
+  else {
+  await writeFile("src/index.js",serverJs)
+  addDevScripts(ts,manager == 'bun' ? 'bun' : 'node')
+
+  }
 }
-export const updateScriptTS = (runtime:string) => {
-  
-  const path = "./package.json";
-  
-  const pkg = JSON.parse(fs.readFileSync(path, "utf-8"));
-  pkg.type = "module";
-  pkg.scripts = pkg.scripts || {};
-  
-  pkg.scripts.build = "tsc";
-  pkg.scripts.start = `${runtime} dist/index.js`;
-  pkg.scripts.dev =  "ts-node src/index.ts";
-  
-  fs.writeFileSync(path, JSON.stringify(pkg, null, 2));
+
+export const addDevScripts = (ts:boolean,runtime:string) => {
+  let scripts = [];
+  if (ts == true) {
+    scripts.push(
+      {
+              key: "build",
+              command: "tsc",
+            },
+            {
+              key: "start",
+              command: `${runtime} dist/index.js`,
+            },
+            {
+              key: "dev",
+              command: "ts-node src/index.ts",
+            }
+    )
+  }
+  else {
+    scripts.push(
+      {
+            key: "start",
+            command: `${runtime} src/index.js`,
+          }
+    )
+  }
+  addScripts(scripts)
+}
+
+
+export const addEslint = ({eslint,ts,manager}:{eslint:boolean,ts:boolean,manager:pkgmanager}) => {
+  if (!eslint)
+    return 
+
+  if (ts) {
+    addDevPackage(manager, "eslint @eslint/js globals typescript typescript-eslint jiti")
+    writeFileSync("eslint.config.js",eslintTs)
+  }
+  else {
+    addDevPackage(manager, "eslint @eslint/js globals")
+    writeFileSync("eslint.config.js",eslintJs)
+  }
+  const scripts = []
+  scripts.push({
+    key: "lint",
+    command:"eslint ."
+  },
+    {
+      key: "lint:fix",
+      command: "eslint . --fix"
+    }
+  )
+  addScripts(scripts)
 }

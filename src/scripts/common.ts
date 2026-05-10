@@ -1,19 +1,26 @@
 import { pkgmanager } from "@/types/common"
 import { execSync ,spawnSync} from "child_process"
-import { mkdirSync } from "fs"
+import fs,{ mkdirSync ,unlinkSync,writeFileSync} from "fs"
 import path from  "path"
-
+import { gitignore } from "@/constants/common"
 
 export const initializeProject = (manager: pkgmanager) => {
-  const command = manager == 'npm' ? `${manager} init -y` : `${manager} init`
-  console.log(process.cwd())
+  const command = manager == 'pnpm' ? `${manager} init` : `${manager} init -y`
   execSync(command, {
     stdio:'inherit'
   })
+  if (manager != "bun") {
+    execSync(`npm  pkg set type=module`, {
+      stdio:'inherit'
+    })
+  } 
 }
-export const createRepo = (name: string) => {
+export const createRepoAndCd = (name: string) => {
   mkdirSync(name,{recursive:true})
   process.chdir(path.resolve(name));
+}
+export const removeFile = (name: string) => {
+  unlinkSync(name)
 }
 export const addPackage = (manager: pkgmanager,packageName:string) => {
   const command = manager == 'npm' ? `npm i ${packageName}` : `${manager} add ${packageName}`
@@ -52,3 +59,35 @@ export const moduleExecutor = (manager: pkgmanager, command: string) => {
     stdio:'inherit'
   })
 }
+
+type scriptProp = Array<
+  {
+    key: string,
+    command: string,
+  }
+  >
+
+export const addScripts = (scripts:scriptProp ) => {
+  const path = "./package.json"
+  const pkg = JSON.parse((fs.readFileSync(path, "utf-8")))
+  pkg.scripts = pkg.scripts || {};
+  scripts.forEach(prop => {
+    pkg.scripts[prop.key] = prop.command;
+  })
+  fs.writeFileSync(path, JSON.stringify(pkg,null,2))
+}
+
+export const initializeGit = (git: boolean)=>{
+  if (git) {
+    writeFileSync(".gitignore",gitignore)
+    execSync("git init", {
+      stdio:"inherit"
+  })
+  }
+  return;
+}
+
+export const createRepo = (name:string) => {
+  mkdirSync(name,{recursive:true})
+}
+
