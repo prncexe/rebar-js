@@ -1,3 +1,4 @@
+import type { language } from "@/types/common"
 export const tsconfig = `{
   "compilerOptions": {
     "rootDir": "./src",
@@ -22,146 +23,156 @@ export const tsconfig = `{
   "exclude": ["dist", "node_modules"]
 }`
 
-export const frameworkBoilerPlateJs = `
-  import  express  from("express")
-  const app = express()
-  
-  
-  app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })
-  
-  app.listen(3000, () => {
-    console.log("Example app listening on port 3000")
-  })
-  `
-export const frameworkBoilerPlateTs = `
-  import express,  {type  Request,type  Response } from "express";
-  
-  const app = express();
-  
-  app.get("/", (req: Request, res: Response) => {
-    res.send("Hello World!");
-  });
-  
-  app.listen(3000, () => {
-    console.log("Example app listening on port 3000");
-  });
-  `
+export const expressBoilerplate = (language: language) => {
+  if (language === "ts") {
+    return `
+import express, { type Request, type Response } from "express";
 
-export const eslintTs = `
-  
+const app = express();
+
+app.get("/", (_req: Request, res: Response) => {
+  res.send("Hello World!");
+});
+
+app.listen(3000, () => {
+  console.log("Example app listening on port 3000");
+});
+`
+  }
+
+return `
+import express from "express";
+
+const app = express();
+
+app.get("/", (_req, res) => {
+  res.send("Hello World!");
+});
+
+app.listen(3000, () => {
+  console.log("Example app listening on port 3000");
+});
+`
+}
+
+export const eslint = (language: language) => {
+  if (language === "ts") {
+    return `
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default [
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+ js.configs.recommended,
+ ...tseslint.configs.recommended,
 
-  {
-    files: ["**/*.ts"],
+ {
+   files: ["**/*.ts"],
 
-    languageOptions: {
-      parser: tseslint.parser,
+   languageOptions: {
+     parser: tseslint.parser,
 
-      parserOptions: {
-        project: "./tsconfig.json",
-      },
+     parserOptions: {
+       project: "./tsconfig.json",
+     },
 
-      globals: {
-        ...globals.node,
-      },
-    },
+     globals: {
+       ...globals.node,
+     },
+   },
 
-    rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
+   rules: {
+     "@typescript-eslint/no-unused-vars": [
+       "warn",
+       {
+         argsIgnorePattern: "^_",
+         varsIgnorePattern: "^_",
+       },
+     ],
 
-      "@typescript-eslint/consistent-type-imports": "warn",
+     "@typescript-eslint/consistent-type-imports": "warn",
 
-      "no-console": "off",
-      "eqeqeq": ["error", "always"],
-      "curly": ["error", "all"],
-      "prefer-const": "warn",
-    },
-  },
+     "no-console": "off",
+     "eqeqeq": ["error", "always"],
+     "curly": ["error", "all"],
+     "prefer-const": "warn",
+   },
+ },
 
-  {
-    ignores: [
-      "node_modules",
-      "dist",
-      "build",
-      "coverage",
-    ],
-  },
+ {
+   ignores: [
+     "node_modules",
+     "dist",
+     "build",
+     "coverage",
+   ],
+ },
 ];
 `
-
-
-export const eslintJs = `
-  import js from "@eslint/js";
-import globals from "globals";
-
-export default [
-  js.configs.recommended,
-
-  {
-    files: ["**/*.js"],
-
-    languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-
-      globals: {
-        ...globals.node,
-      },
-    },
-
-    rules: {
-      // code quality
-      "no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
+  }
+  return `
+    import js from "@eslint/js";
+    import globals from "globals";
+    
+    export default [
+      js.configs.recommended,
+    
+      {
+        files: ["**/*.js"],
+    
+        languageOptions: {
+          ecmaVersion: "latest",
+          sourceType: "module",
+    
+          globals: {
+            ...globals.node,
+          },
         },
-      ],
+    
+        rules: {
+          // code quality
+          "no-unused-vars": [
+            "warn",
+            {
+              argsIgnorePattern: "^_",
+              varsIgnorePattern: "^_",
+            },
+          ],
+    
+          "no-console": "off",
+          "no-debugger": "warn",
+    
+          // async/backend safety
+          "no-async-promise-executor": "error",
+          "require-await": "warn",
+    
+          // style-ish
+          "object-shorthand": "warn",
+          "prefer-const": "warn",
+    
+          // common backend mistakes
+          "eqeqeq": ["error", "always"],
+          "curly": ["error", "all"],
+    
+          // imports
+          "no-duplicate-imports": "error",
+        },
+      },
+    
+      {
+        ignores: [
+          "node_modules",
+          "dist",
+          "build",
+          "coverage",
+          ".env",
+        ],
+      },
+    ];
+    `
 
-      "no-console": "off",
-      "no-debugger": "warn",
+}
 
-      // async/backend safety
-      "no-async-promise-executor": "error",
-      "require-await": "warn",
 
-      // style-ish
-      "object-shorthand": "warn",
-      "prefer-const": "warn",
 
-      // common backend mistakes
-      "eqeqeq": ["error", "always"],
-      "curly": ["error", "all"],
-
-      // imports
-      "no-duplicate-imports": "error",
-    },
-  },
-
-  {
-    ignores: [
-      "node_modules",
-      "dist",
-      "build",
-      "coverage",
-      ".env",
-    ],
-  },
-];
-`
 

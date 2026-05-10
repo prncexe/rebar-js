@@ -1,5 +1,5 @@
-import { pkgmanager } from "@/types/common";
-import { input, select, checkbox } from "@inquirer/prompts";
+import type { pkgmanager } from "@/types/common";
+import { checkbox } from "@inquirer/prompts";
 
 export const expressPrompts = async (manager:pkgmanager) => {
   return await checkbox({
@@ -8,8 +8,8 @@ export const expressPrompts = async (manager:pkgmanager) => {
       {
         name: 'typescript?',
         value: 'typescript',
-        disabled: manager == 'bun' ? 'Always on by bun' : false,
-        checked: manager == 'bun' ? true : false
+        disabled: manager === 'bun' ? 'Always on by bun' : false,
+        checked: manager === 'bun' ? true : false
       },
       {
         name: 'git?',

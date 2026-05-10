@@ -1,7 +1,7 @@
 import { typeProjectName } from "@/prompts/basic";
 import { expressPrompts } from "@/prompts/express";
-import { initializeProject,createRepoAndCd, addPackage,createRepo, initializeGit } from "@/scripts/common";
-import { pkgmanager } from "@/types/common";
+import { createRepoAndCd, initializeGit } from "@/scripts/common";
+import type { pkgmanager } from "@/types/common";
 import { addEslint, expressServer } from "@/scripts/express";
 
 

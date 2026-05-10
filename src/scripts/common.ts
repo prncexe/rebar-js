@@ -1,15 +1,15 @@
-import { pkgmanager } from "@/types/common"
-import { execSync ,spawnSync} from "child_process"
+import type { pkgmanager } from "@/types/common"
+import { execSync } from "child_process"
 import fs,{ mkdirSync ,unlinkSync,writeFileSync} from "fs"
 import path from  "path"
 import { gitignore } from "@/constants/common"
 
 export const initializeProject = (manager: pkgmanager) => {
-  const command = manager == 'pnpm' ? `${manager} init` : `${manager} init -y`
+  const command = manager === 'pnpm' ? `${manager} init` : `${manager} init -y`
   execSync(command, {
     stdio:'inherit'
   })
-  if (manager != "bun") {
+  if (manager !== "bun") {
     execSync(`npm  pkg set type=module`, {
       stdio:'inherit'
     })
@@ -19,17 +19,20 @@ export const createRepoAndCd = (name: string) => {
   mkdirSync(name,{recursive:true})
   process.chdir(path.resolve(name));
 }
+export const changeDir = (name:string) => {
+  process.chdir(path.resolve(name))
+}
 export const removeFile = (name: string) => {
   unlinkSync(name)
 }
 export const addPackage = (manager: pkgmanager,packageName:string) => {
-  const command = manager == 'npm' ? `npm i ${packageName}` : `${manager} add ${packageName}`
+  const command = manager === 'npm' ? `npm i ${packageName}` : `${manager} add ${packageName}`
   execSync(command, {
     stdio:'inherit'
   })
 }
 export const addDevPackage = (manager: pkgmanager,packageName:string) => {
-  const command = manager == 'npm' ? `npm i -D ${packageName}` : `${manager} add -D ${packageName}`
+  const command = manager === 'npm' ? `npm i -D ${packageName}` : `${manager} add -D ${packageName}`
   execSync(command, {
     stdio:'inherit'
   })

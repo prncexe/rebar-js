@@ -1,9 +1,9 @@
 import { electronFramework } from "@/prompts/electronFramework";
-import { pkgmanager } from "@/types/common";
+import type { pkgmanager } from "@/types/common";
 import { spawn } from "child_process";
 
 export const buildElectronApp = async(manager: pkgmanager) => {
-  const framework = await electronFramework();
+  await electronFramework();
 
   
   const child = spawn(manager, ['create',' @quick-start/electron'], {

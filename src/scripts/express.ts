@@ -1,9 +1,9 @@
 import {type pkgmanager } from "@/types/common"
 import { writeFile } from "fs/promises";
 import { writeFileSync } from "fs";
-import { eslintJs,eslintTs } from "@/constants/express";
+import { eslint as expressEslintConfig } from "@/constants/express";
 import { addDevPackage, moduleExecutor, addScripts, removeFile } from "./common";
-import { frameworkBoilerPlateJs as serverJs,frameworkBoilerPlateTs as serverTs,tsconfig } from "@/constants/express";
+import { expressBoilerplate, tsconfig } from "@/constants/express";
 import { initializeProject } from "./common";
 import { addPackage } from "./common";
 import { createRepo } from "./common";
@@ -16,20 +16,18 @@ export const expressServer = async ({ manager, ts }: { manager: pkgmanager, ts: 
   if (ts) {
     addDevPackage(manager, "typescript ts-node nodemon @types/node @types/express")
     moduleExecutor(manager,"tsc --init")
-    await writeFile("src/index.ts", serverTs)
+    await writeFile("src/index.ts", expressBoilerplate("ts"))
     await writeFile("tsconfig.json", tsconfig)
-     addDevScripts(ts,manager == 'bun' ? 'bun' : 'node')
-  } 
-  else {
-  await writeFile("src/index.js",serverJs)
-  addDevScripts(ts,manager == 'bun' ? 'bun' : 'node')
-
+    addDevScripts(ts, manager === 'bun' ? 'bun' : 'node')
+  } else {
+    await writeFile("src/index.js",expressBoilerplate("js"))
+    addDevScripts(ts, manager === 'bun' ? 'bun' : 'node')
   }
 }
 
 export const addDevScripts = (ts:boolean,runtime:string) => {
-  let scripts = [];
-  if (ts == true) {
+  const scripts = [];
+  if (ts === true) {
     scripts.push(
       {
               key: "build",
@@ -58,16 +56,16 @@ export const addDevScripts = (ts:boolean,runtime:string) => {
 
 
 export const addEslint = ({eslint,ts,manager}:{eslint:boolean,ts:boolean,manager:pkgmanager}) => {
-  if (!eslint)
+  if (!eslint) {
     return 
+  }
 
   if (ts) {
     addDevPackage(manager, "eslint @eslint/js globals typescript typescript-eslint jiti")
-    writeFileSync("eslint.config.js",eslintTs)
-  }
-  else {
+    writeFileSync("eslint.config.js", expressEslintConfig('ts'))
+  } else {
     addDevPackage(manager, "eslint @eslint/js globals")
-    writeFileSync("eslint.config.js",eslintJs)
+    writeFileSync("eslint.config.js", expressEslintConfig('js'))
   }
   const scripts = []
   scripts.push({

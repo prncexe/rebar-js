@@ -33,7 +33,7 @@ export async function chooseFramework(manager:pkgmanager):Promise<framework> {
         value: 'nextjs',
       },
       {
-        name: 'vite',
+        name: 'vite(React)',
         value:'vite',
       },
       {
@@ -47,7 +47,7 @@ export async function chooseFramework(manager:pkgmanager):Promise<framework> {
       {
         name:'electron',
         value: 'electron',
-        disabled: manager == 'bun'? "(Not supported with bun)" : false,
+        disabled: manager === 'bun'? "(Not supported with bun)" : false,
       }
     ]
   })
@@ -55,5 +55,6 @@ export async function chooseFramework(manager:pkgmanager):Promise<framework> {
 }
 
 export async function typeProjectName(): Promise<string>{
-  return await input({ message: 'Enter your Project name' });
+ const str =  await input({ message: 'Enter your Project name' });
+  return str.trim();
 }

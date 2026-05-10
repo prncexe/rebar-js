@@ -2,7 +2,8 @@
 
 import { Command } from 'commander';
 import { chooseFramework, choosePackageManager } from '@/prompts/basic';
-import { execFunc, mapper } from './utils/frameworkMapper';
+import type { execFunc } from './utils/frameworkMapper';
+import { mapper } from './utils/frameworkMapper';
 const program = new Command();
 
 program
@@ -15,9 +16,10 @@ program.command("init")
     const manager = await choosePackageManager();
     const framework = await chooseFramework(manager);
     const func:execFunc = mapper[framework]
-    if(!func) process.exit(1) 
-    await func(manager)
-    console.log("firse babay")
+    if (!func) {
+      process.exit(1)
+    }
+    func(manager)
   });
 
 

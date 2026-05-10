@@ -1,5 +1,5 @@
 import { spawn } from "child_process"
-import { pkgmanager } from "@/types/common"
+import type { pkgmanager } from "@/types/common"
 export const buildNextApp = (manager: pkgmanager) => {
   
   const child = spawn(manager, ["create", "next-app"], {
