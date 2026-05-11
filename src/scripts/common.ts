@@ -1,6 +1,6 @@
-import type { pkgmanager } from "@/types/common"
+import type { language, pkgmanager } from "@/types/common"
 import { execSync } from "child_process"
-import fs,{ mkdirSync ,unlinkSync,writeFileSync} from "fs"
+import fs,{ mkdirSync ,unlinkSync,writeFileSync,readFileSync} from "fs"
 import path from  "path"
 import { gitignore } from "@/constants/common"
 
@@ -92,5 +92,23 @@ export const initializeGit = (git: boolean)=>{
 
 export const createRepo = (name:string) => {
   mkdirSync(name,{recursive:true})
+}
+
+export const pathAliasingConfig = (filename: string,language:language) => {
+  let file;
+  if (language === 'ts') {
+   file = JSON.parse(readFileSync(filename, "utf-8"))
+  }
+  else {
+    file = {
+      compilerOptions:{},
+    }
+  }
+  const compiler = file.compilerOptions || {};
+  compiler.paths = compiler.paths || {}
+  const key = "@/*"
+  compiler.paths[key] = ["./src/*"]
+  file.compilerOptions = compiler;
+  writeFileSync(filename,JSON.stringify(file,null,2))
 }
 

@@ -1,5 +1,5 @@
 export const gitignore = `
-  /node_modules
+/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -17,7 +17,7 @@ export const gitignore = `
 
 # production
 /build
-
+/dist
 # misc
 .DS_Store
 *.pem

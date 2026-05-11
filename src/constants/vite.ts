@@ -23,32 +23,35 @@ ReactDOM.createRoot(root).render(<RouterProvider router={router} />);
  `
 }
 
-export const viteAppTsconfig = (language: language) => {
-  if (language !== "ts") {
-    return ""
-  }
+export const viteAppTsconfig = () => {
+
 
   return `
 {
-  "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "es2023",
-    "lib": ["ES2023", "DOM"],
-    "module": "esnext",
-    "types": ["vite/client"],
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"]
+    "compilerOptions": {
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+      "target": "es2023",
+      "lib": ["ES2023", "DOM"],
+      "module": "esnext",
+      "types": ["vite/client"],
+      "skipLibCheck": true,
+  
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "verbatimModuleSyntax": true,
+      "moduleDetection": "force",
+      "noEmit": true,
+      "jsx": "react-jsx",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "erasableSyntaxOnly": true,
+      "noFallthroughCasesInSwitch": true
+    },
+    "include": ["src"]
 }
+
 `
 }

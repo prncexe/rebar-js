@@ -42,9 +42,7 @@ export const viteChoices = async () => {
    selected.add('typescript')
    selected.add('tailwind')
  }
-  if (selected.has('pathAlising')) {
-    selected.add('typescript')
-  }
+
   const answer = Array.from(selected)
   return answer;
   }

@@ -1,7 +1,7 @@
 import type { pkgmanager } from "@/types/common"
 import { viteChoices } from "@/prompts/vite"
 import { typeProjectName } from "@/prompts/basic"
-import { initiateVite, patchViteEslintConfigForShadcn, pathAliasingConfig, reactCompilerSetup, reactRouterSetup, rewriteViteConfig, shadcnSetup, tailwindViteSetup, viteConfigCreate } from "@/scripts/vite"
+import { initiateVite, patchViteEslintConfigForShadcn, pathAliasingSetup, reactCompilerSetup, reactRouterSetup, rewriteViteConfig, shadcnSetup, tailwindViteSetup, viteConfigCreate } from "@/scripts/vite"
 export const buildViteApp = async (manager: pkgmanager) => {
   const name  = await typeProjectName()
   const answers = await viteChoices();
@@ -14,9 +14,7 @@ export const buildViteApp = async (manager: pkgmanager) => {
   initiateVite({ ts, manager, name })
   const viteConfig = viteConfigCreate({ tailwind, rc, pathAliasing });
   rewriteViteConfig(viteConfig, ts);
-  if (pathAliasing || shadcn) {
-    pathAliasingConfig("tsconfig.json")
-  }
+  pathAliasingSetup({pathAliasing,ts})
   patchViteEslintConfigForShadcn(shadcn)
   tailwindViteSetup(manager, tailwind);
   reactCompilerSetup(manager, rc);

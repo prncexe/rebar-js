@@ -1,8 +1,8 @@
 import type { pkgmanager } from "@/types/common"
 import { execSync } from "child_process"
-import { addDevPackage, addPackage, changeDir, packageExecutor } from "./common"
+import { addDevPackage, addPackage, changeDir, packageExecutor, pathAliasingConfig } from "./common"
 import { readFileSync, writeFileSync } from "fs"
-import { reactRouterEntry } from "@/constants/vite"
+import { reactRouterEntry, viteAppTsconfig } from "@/constants/vite"
 
 export const initiateVite = ({ manager, ts, name }: { manager: pkgmanager, ts: boolean, name: string }) => { 
  const template = ts ? "react-ts" : "react"
@@ -13,16 +13,6 @@ export const initiateVite = ({ manager, ts, name }: { manager: pkgmanager, ts: b
  changeDir(name)
 }
 
-export const pathAliasingConfig = (filename:string) => {
-  const file = JSON.parse(readFileSync(filename, "utf-8"))
-  const compiler = file.compilerOptions || {};
-  compiler.baseUrl = ".";
-  compiler.paths = compiler.paths || {}
-  const key = "@/*"
-  compiler.paths[key] = ["./src/*"]
-  file.compilerOptions = compiler;
-  writeFileSync(filename,JSON.stringify(file,null,2))
-}
 
 export const viteConfigCreate = ({ tailwind, rc, pathAliasing}:{tailwind: boolean, rc: boolean, pathAliasing:boolean}) => {
   const imports = [`import { defineConfig } from "vite";`]
@@ -140,6 +130,20 @@ export const reactRouterSetup = ({ rr, manager, ts }:{rr: boolean, manager: pkgm
   } else {
     writeFileSync("src/main.jsx", reactRouterEntry("js"));
     
+  }
 }
-  
+
+export const pathAliasingSetup = ({ pathAliasing, ts }: { pathAliasing: boolean, ts: boolean }) => {
+  if (!pathAliasing) {
+    return
+  } 
+  const language = ts ? 'ts' : 'js'
+  if (language === 'ts') {
+    pathAliasingConfig("tsconfig.json", language)
+    writeFileSync("tsconfig.app.json",viteAppTsconfig())
+  }
+  else {
+  pathAliasingConfig("jsconfig.json",language)
+  }
 }
+
