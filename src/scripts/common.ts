@@ -15,8 +15,11 @@ export const initializeProject = (manager: pkgmanager) => {
     })
   } 
 }
-export const createRepoAndCd = (name: string) => {
+export const createRepo = (name: string) => {
+  if(!existsSync(name))
   mkdirSync(name,{recursive:true})
+}
+export const createRepoAndCd = (name: string) => {
   process.chdir(path.resolve(name));
 }
 export const changeDir = (name:string) => {
@@ -27,6 +30,11 @@ export const removeFile = (name: string) => {
   unlinkSync(name)
     
   }
+}
+export const writeData = (name: string, data: string) => {
+  const dir = name.split('/').slice(0, -1).join('/')
+  if (dir) createRepo(dir)
+  writeFileSync(name, data)
 }
 export const addPackage = (manager: pkgmanager,packageName:string) => {
   const command = manager === 'npm' ? `npm i ${packageName}` : `${manager} add ${packageName}`
@@ -80,12 +88,12 @@ export const addScripts = (scripts:scriptProp ) => {
   scripts.forEach(prop => {
     pkg.scripts[prop.key] = prop.command;
   })
-  fs.writeFileSync(path, JSON.stringify(pkg,null,2))
+  writeData(path, JSON.stringify(pkg, null, 2))
 }
 
 export const initializeGit = (git: boolean)=>{
   if (git) {
-    writeFileSync(".gitignore",gitignore)
+    writeData(".gitignore", gitignore)
     execSync("git init", {
       stdio:"inherit"
   })
@@ -93,9 +101,7 @@ export const initializeGit = (git: boolean)=>{
   return;
 }
 
-export const createRepo = (name:string) => {
-  mkdirSync(name,{recursive:true})
-}
+
 
 export const pathAliasingConfig = (filename: string,language:language) => {
   let file;
@@ -112,6 +118,6 @@ export const pathAliasingConfig = (filename: string,language:language) => {
   const key = "@/*"
   compiler.paths[key] = ["./src/*"]
   file.compilerOptions = compiler;
-  writeFileSync(filename,JSON.stringify(file,null,2))
+  writeData(filename, JSON.stringify(file, null, 2))
 }
 

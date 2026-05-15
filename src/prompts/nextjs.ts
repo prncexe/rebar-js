@@ -1,18 +1,13 @@
 import { checkbox, select } from "@inquirer/prompts";
 
 type optionalChoice = "None";
-export type nextjschoice = "typescript" | "shadcn" | "pathAliasing"|  "Drizzle" | "trpc" | "husky" 
+export type nextjschoice =   "reactCompiler" | "shadcn" | "betterAuth" |  "Drizzle" | "trpc" | "husky" 
 
-type linter = "eslint" | "biome" | optionalChoice
+export type linter = "eslint" | "biome" | optionalChoice
 
-type Auth = "authJs" | "betterAuth" | optionalChoice;
+export type Auth = "authJs" | "betterAuth" | optionalChoice;
 
 
-const authChoices: Record<Auth, string> = {
-  authJs: "Auth.js",
-  betterAuth: "Better Auth",
-  None : "none",
-};
 
 const linterChoices: Record<linter, string> = {
   eslint: "eslint",
@@ -20,12 +15,12 @@ const linterChoices: Record<linter, string> = {
   None: "none"
 }
 const nextChoices: Record<nextjschoice, string> = {
-  typescript: "typescript",
   husky : "husky",
-  pathAliasing: "pathAliasing",
   shadcn: "shadcn",
   trpc: "trpc",
-  Drizzle:  "drizzle"
+  Drizzle: "drizzle ORM",
+  reactCompiler: "react Compiler",
+  betterAuth : "Better Auth"
 }
 
 
@@ -42,16 +37,9 @@ export const nextjsChoices = async (): Promise<nextjschoice[]> => {
 
   const selected = new Set(answers);
 
-  if (selected.has("shadcn")) {
-    selected.add("typescript");
-    selected.add("pathAliasing");
-  }
-
-  if (selected.has("trpc")) {
-    selected.add("typescript");
-    selected.add("pathAliasing");
-  }
-
+  if (selected.has("betterAuth")) {
+    selected.add("Drizzle")
+}
   return Array.from(selected);
 };
 
@@ -67,15 +55,4 @@ export const linter = async ():Promise<linter> => {
  })
 }
 
-export const auth = async (): Promise<Auth> => {
-  return await select<Auth>({
-    message: "Choose auth service",
-    choices: Object.entries(authChoices).map(
-      ([value, name]) => ({
-        name,
-        value: value as Auth
-      })
-    )
-  });
-};
 

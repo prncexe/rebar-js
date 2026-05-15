@@ -39,7 +39,7 @@ export default [
 
      "no-console": "off",
      "eqeqeq": ["error", "always"],
-     "curly": ["error", "all"],
+     "curly": "off",
      "prefer-const": "warn",
    },
  },

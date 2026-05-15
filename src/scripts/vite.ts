@@ -1,7 +1,7 @@
 import type { pkgmanager } from "@/types/common"
 import { execSync } from "child_process"
-import { addDevPackage, addPackage, changeDir, packageExecutor, pathAliasingConfig } from "./common"
-import { readFileSync, writeFileSync } from "fs"
+import { addDevPackage, addPackage, changeDir, packageExecutor, pathAliasingConfig, writeData } from "./common"
+import { readFileSync } from "fs"
 import { reactRouterEntry, viteAppTsconfig } from "@/constants/vite"
 
 export const initiateVite = ({ manager, ts, name }: { manager: pkgmanager, ts: boolean, name: string }) => { 
@@ -64,7 +64,7 @@ export default defineConfig({
 
 export const rewriteViteConfig = (data: string,ts:boolean) => {
   const fileName = ts?'vite.config.ts':'vite.config.js'
-   writeFileSync(fileName, data)
+   writeData(fileName, data)
 }
 
 export const patchViteEslintConfigForShadcn = (shadcn: boolean) => {
@@ -89,7 +89,7 @@ export const patchViteEslintConfigForShadcn = (shadcn: boolean) => {
   }`
 
   const updatedFile = file.replace(/\]\s*$/, `${overrideBlock}\n]`)
-  writeFileSync(fileName, updatedFile)
+  writeData(fileName, updatedFile)
 }
 
 export const tailwindViteSetup = (manager: pkgmanager, tailwind: boolean) => {
@@ -97,7 +97,7 @@ export const tailwindViteSetup = (manager: pkgmanager, tailwind: boolean) => {
     return 
   }
   addPackage(manager, "tailwindcss @tailwindcss/vite");
-  writeFileSync("src/App.css", `@import "tailwindcss";\n`);
+  writeData("src/App.css", `@import "tailwindcss";\n`);
   
 }
 
@@ -126,9 +126,9 @@ export const reactRouterSetup = ({ rr, manager, ts }:{rr: boolean, manager: pkgm
   addPackage(manager, "react-router");
   
   if (ts) {
-    writeFileSync("src/main.tsx", reactRouterEntry("ts"));
+    writeData("src/main.tsx", reactRouterEntry("ts"));
   } else {
-    writeFileSync("src/main.jsx", reactRouterEntry("js"));
+    writeData("src/main.jsx", reactRouterEntry("js"));
     
   }
 }
@@ -140,7 +140,7 @@ export const pathAliasingSetup = ({ pathAliasing, ts }: { pathAliasing: boolean,
   const language = ts ? 'ts' : 'js'
   if (language === 'ts') {
     pathAliasingConfig("tsconfig.json", language)
-    writeFileSync("tsconfig.app.json",viteAppTsconfig())
+    writeData("tsconfig.app.json", viteAppTsconfig())
   }
   else {
   pathAliasingConfig("jsconfig.json",language)

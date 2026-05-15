@@ -1,8 +1,7 @@
 import {type pkgmanager } from "@/types/common"
 import { writeFile } from "fs/promises";
-import { writeFileSync } from "fs";
 import { eslint as expressEslintConfig } from "@/constants/express";
-import { addDevPackage, moduleExecutor, addScripts, removeFile, pathAliasingConfig } from "./common";
+import { addDevPackage, moduleExecutor, addScripts, removeFile, pathAliasingConfig, writeData } from "./common";
 import { expressBoilerplate, tsconfig } from "@/constants/express";
 import { initializeProject } from "./common";
 import { addPackage } from "./common";
@@ -62,10 +61,10 @@ export const addEslint = ({eslint,ts,manager}:{eslint:boolean,ts:boolean,manager
 
   if (ts) {
     addDevPackage(manager, "eslint @eslint/js globals typescript typescript-eslint jiti")
-    writeFileSync("eslint.config.js", expressEslintConfig('ts'))
+    writeData("eslint.config.js", expressEslintConfig('ts'))
   } else {
     addDevPackage(manager, "eslint @eslint/js globals")
-    writeFileSync("eslint.config.js", expressEslintConfig('js'))
+    writeData("eslint.config.js", expressEslintConfig('js'))
   }
   const scripts = []
   scripts.push({
