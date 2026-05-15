@@ -10,10 +10,10 @@ import { createRepo } from "./common";
 export const expressServer = async ({ manager, ts }: { manager: pkgmanager, ts: boolean }) => {
   initializeProject(manager)
   removeFile("index.ts")
-  addPackage(manager, 'express')
+  addPackage(manager, 'express@5.2.1')
   createRepo("src")
   if (ts) {
-    addDevPackage(manager, "typescript tsx nodemon @types/node @types/express")
+    addDevPackage(manager, "typescript@5.9.3 tsx@4.21.0 nodemon@3.1.9 @types/node@25.6.2 @types/express@5.0.6")
     moduleExecutor(manager,"tsc --init")
     await writeFile("src/index.ts", expressBoilerplate("ts"))
     await writeFile("tsconfig.json", tsconfig)
@@ -60,10 +60,10 @@ export const addEslint = ({eslint,ts,manager}:{eslint:boolean,ts:boolean,manager
   }
 
   if (ts) {
-    addDevPackage(manager, "eslint @eslint/js globals typescript typescript-eslint jiti")
+    addDevPackage(manager, "eslint@9.26.0 @eslint/js@9.26.0 globals@16.0.0 typescript@5.9.3 typescript-eslint@8.59.2 jiti@2.7.0")
     writeData("eslint.config.js", expressEslintConfig('ts'))
   } else {
-    addDevPackage(manager, "eslint @eslint/js globals")
+    addDevPackage(manager, "eslint@9.26.0 @eslint/js@9.26.0 globals@16.0.0")
     writeData("eslint.config.js", expressEslintConfig('js'))
   }
   const scripts = []

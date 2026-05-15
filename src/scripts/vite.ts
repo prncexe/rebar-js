@@ -96,7 +96,7 @@ export const tailwindViteSetup = (manager: pkgmanager, tailwind: boolean) => {
   if (!tailwind) {
     return 
   }
-  addPackage(manager, "tailwindcss @tailwindcss/vite");
+  addPackage(manager, "tailwindcss@4.3.0 @tailwindcss/vite@4.2.4");
   writeData("src/App.css", `@import "tailwindcss";\n`);
   
 }
@@ -105,7 +105,7 @@ export const reactCompilerSetup = (manager: pkgmanager,rc:boolean) => {
   if (!rc) {
     return
   }
-  addDevPackage(manager, "@rolldown/plugin-babel @babel/core babel-plugin-react-compiler @types/babel__core");
+  addDevPackage(manager, "@rolldown/plugin-babel@0.2.0 @babel/core@7.27.1 babel-plugin-react-compiler@19.1.0 @types/babel__core@7.20.5");
   
 }
 
@@ -123,7 +123,7 @@ export const reactRouterSetup = ({ rr, manager, ts }:{rr: boolean, manager: pkgm
   if (!rr) {
     return
   }
-  addPackage(manager, "react-router");
+  addPackage(manager, "react-router@7.12.0");
   
   if (ts) {
     writeData("src/main.tsx", reactRouterEntry("ts"));

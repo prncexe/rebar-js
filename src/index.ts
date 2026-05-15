@@ -34,14 +34,19 @@ export type options = {
 }
 program.command("start")
   .description("Enter template parameters")
-  .option("-m ,--packageManager <manager>", "package Manager: npm,bun,yarn,pnpm")
+  .option("-m ,--packageManager <manager>", "package Manager: npm, bun, yarn")
   .option("-f ,--framework <framework>", "framework: nextjs,vite,express,expo,electron")
   .action((options: options) => {
     banner();
     const { packageManager, framework } = options;
     if (!packageManager || !framework) {
       error(`Missing required options. Use --packageManager and --framework.`);
-      console.log(colors.gray(`  Example: rebar start -m pnpm -f vite`));
+      console.log(colors.gray(`  Example: rebar start -m npm -f vite`));
+      process.exit(1);
+    }
+    if (packageManager === 'pnpm') {
+      error(`pnpm is not supported (pnpm install --ignore-scripts breaks builds).`);
+      console.log(colors.gray(`  Use npm, yarn, or bun instead.`));
       process.exit(1);
     }
     info(`Scaffolding a ${colors.bold(framework)} project with ${colors.bold(packageManager)}...\n`);

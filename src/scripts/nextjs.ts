@@ -78,7 +78,7 @@ export const trpcSetup = (manager: pkgmanager, trpc: boolean) => {
   if (!trpc) return;
   addPackage(
     manager,
-    "@trpc/server @trpc/client @trpc/react-query @trpc/next @tanstack/react-query superjson zod",
+    "@trpc/server@11.17.0 @trpc/client@11.17.0 @trpc/react-query@11.17.0 @trpc/next@11.17.0 @tanstack/react-query@5.100.10 superjson@2.2.5 zod@3.24.3",
   );
 
   createRepo("src/server/routers");
@@ -213,8 +213,8 @@ export { handler as GET, handler as POST }`,
 
 export const drizzleSetup = (manager: pkgmanager, drizzle: boolean) => {
   if (!drizzle) return;
-  addPackage(manager, "drizzle-orm pg");
-  addDevPackage(manager, "drizzle-kit tsx @types/pg");
+  addPackage(manager, "drizzle-orm@0.45.2 pg@9.6.0");
+  addDevPackage(manager, "drizzle-kit@0.31.10 tsx@4.21.0 @types/pg@latest");
   appendFileSync(".env", "DATABASE_URL=\n");
   writeData(
     "drizzle.config.ts",
@@ -267,7 +267,7 @@ export default defineConfig({
 
 export const huskySetup = (manager: pkgmanager, husky: boolean) => {
   if (!husky) return;
-  addDevPackage(manager, "husky");
+  addDevPackage(manager, "husky@9.1.7");
   packageExecutor(manager, "husky init");
 };
 
@@ -279,7 +279,7 @@ export const authSetup = (
 
   createRepo("src/lib");
 
-  addPackage(manager, "better-auth");
+  addPackage(manager, "better-auth@1.6.9");
   appendFileSync(".env", "BETTER_AUTH_URL=http://localhost:3000\nBETTER_AUTH_SECRET=0zNTvTuWUIH0rBOSbVTofnA6Ojq4zcHCl+INhkkiGy8=\n")
  
     const authContent = 

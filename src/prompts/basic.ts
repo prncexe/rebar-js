@@ -24,6 +24,7 @@ export async function choosePackageManager(): Promise<pkgmanager> {
         name: 'pnpm',
         value: 'pnpm',
         description: 'Fast, disk-space efficient package manager',
+        disabled: "(not supported — pnpm install --ignore-scripts breaks builds)",
       },
     ],
   });
