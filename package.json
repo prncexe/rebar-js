@@ -1,9 +1,9 @@
 {
-  "name": "rebar",
+  "name": "rebar-js",
   "version": "1.0.0",
   "description": "Interactive CLI for scaffolding JavaScript and TypeScript projects across multiple frameworks.",
   "bin": {
-    "rebar": "./bin/project.js"
+    "rebar-js": "./bin/project.js"
   },
   "files": [
     "bin/",

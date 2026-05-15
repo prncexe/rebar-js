@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="#features"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanomalyco%2Frebar%2Fmain%2Fpackage.json&query=%24.version&style=flat&label=version&color=6c5ce7" alt="Version"></a>
+  <a href="#features"><img src="https://img.shields.io/badge/dynamic/jso
   <img src="https://img.shields.io/badge/license-ISC-6c5ce7?style=flat" alt="License">
   <img src="https://img.shields.io/badge/node-%3E%3D20-6c5ce7?style=flat" alt="Node">
   <img src="https://img.shields.io/badge/typescript-5.9-3178C6?style=flat" alt="TypeScript">
@@ -13,7 +13,7 @@
 
 ## Overview
 
-Rebar is an interactive CLI that scaffolds full-featured projects across **Next.js**, **Vite**, **Express**, **Expo**, and **Electron**. Answer a few prompts and get a production-ready project with your choice of package manager, linter, database ORM, auth, and UI toolkit — all wired up and ready to code.
+Rebar-js is an interactive CLI that scaffolds full-featured projects across **Next.js**, **Vite**, **Express**, **Expo**, and **Electron**. Answer a few prompts and get a production-ready project with your choice of package manager, linter, database ORM, auth, and UI toolkit — all wired up and ready to code.
 
 <br>
 
@@ -22,7 +22,7 @@ Rebar is an interactive CLI that scaffolds full-featured projects across **Next.
 - **Framework selection** — Next.js, Vite (React), Express, Expo, or Electron
 - **Package manager of choice** — npm, yarn, or bun
 - **Per-framework tooling prompts** — TypeScript, Tailwind CSS, shadcn/ui, tRPC, Drizzle ORM, Better Auth, React Router, React Compiler, Husky, ESLint, Biome, path aliasing, and more
-- **Interactive & headless modes** — `rebar init` for guided setup, `rebar start` for flag-driven automation
+- **Interactive & headless modes** — `rebar-js init` for guided setup, `rebar-js start` for flag-driven automation
 - **Colored terminal output** — step indicators, status symbols, and a welcome banner
 - **Pinned dependency versions** — all packages are locked to stable releases so scaffolding doesn't break
 
@@ -31,7 +31,7 @@ Rebar is an interactive CLI that scaffolds full-featured projects across **Next.
 ## Quick start
 
 ```bash
-npx rebar init
+npx rebar-js init
 ```
 
 Follow the prompts to pick a package manager, framework, and extra tooling. That's it.
@@ -43,23 +43,23 @@ Follow the prompts to pick a package manager, framework, and extra tooling. That
 ### Via npx (no install)
 
 ```bash
-npx rebar init
+npx rebar-js init
 ```
 
 ### Global install
 
 ```bash
-npm install -g rebar
+npm install -g rebar-js
 # or
-yarn global add rebar
+yarn global add rebar-js
 # or
-bun add -g rebar
+bun add -g rebar-js
 ```
 
 Then run:
 
 ```bash
-rebar init
+rebar-js init
 ```
 
 <br>
@@ -69,7 +69,7 @@ rebar init
 ### Interactive mode
 
 ```bash
-rebar init
+rebar-js init
 ```
 
 Walks you through:
@@ -82,7 +82,7 @@ Walks you through:
 ### Headless mode
 
 ```bash
-rebar start -m npm -f vite
+rebar-js start -m npm -f vite
 ```
 
 Flags:
@@ -118,8 +118,8 @@ Flags:
 
 ```bash
 # Clone
-git clone https://github.com/anomalyco/rebar.git
-cd rebar
+git clone https://github.com/anomalyco/rebar-js.git
+cd rebar-js
 
 # Install dependencies
 npm install
@@ -139,9 +139,9 @@ node bin/project.js init
 
 <br>
 
-## Why "Rebar"?
+## Why "rebar-js"?
 
-Rebar is the steel reinforcing bar that gives concrete its tensile strength — it's hidden inside the structure, but everything relies on it. A solid scaffolding tool works the same way.
+rebar-js is the steel reinforcing bar that gives concrete its tensile strength — it's hidden inside the structure, but everything relies on it. A solid scaffolding tool works the same way.
 
 <br>
 

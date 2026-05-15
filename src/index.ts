@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name('Rebar')
   .description('Interactive CLI for scaffolding JavaScript and TypeScript projects across multiple frameworks.')
-  .version('1.0.0');
+  .version('1.0.1');
 
 program.command("init")
   .description("choose a template to start")
