@@ -16,11 +16,12 @@ export const initializeProject = (manager: pkgmanager) => {
   } 
 }
 export const createRepo = (name: string) => {
-  if(!existsSync(name))
-  mkdirSync(name,{recursive:true})
+    mkdirSync(name, { recursive: true });
+  
 }
 export const createRepoAndCd = (name: string) => {
-  process.chdir(path.resolve(name));
+  createRepo(name)
+  changeDir(name);
 }
 export const changeDir = (name:string) => {
   process.chdir(path.resolve(name))
