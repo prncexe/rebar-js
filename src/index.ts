@@ -6,18 +6,22 @@ import type { execFunc } from './utils/frameworkMapper';
 import { mapper } from './utils/frameworkMapper';
 import type { framework, pkgmanager } from '@/types/common';
 import { banner, info, error, colors } from '@/utils/display';
+import cfonts from "cfonts";
 
 const program = new Command();
 
 program
   .name('Rebar')
   .description('Interactive CLI for scaffolding JavaScript and TypeScript projects across multiple frameworks.')
-  .version('1.0.4');
+  .version('1.1.0');
 
 program.command("init")
   .description("choose a template to start")
   .action(async () => {
-    banner();
+    cfonts.say("REBAR", {
+      font: "block",
+      colors: ["cyan"]
+    });
     info(`Let's scaffold your project! Answer a few questions to get started.\n`);
     const manager = await choosePackageManager();
     const fw = await chooseFramework(manager);

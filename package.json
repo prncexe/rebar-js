@@ -1,6 +1,6 @@
 {
   "name": "rebar-js",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Interactive CLI for scaffolding JavaScript and TypeScript projects across multiple frameworks.",
   "bin": {
     "rebar-js": "./bin/project.js"
@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^8.4.2",
+    "cfonts": "^3.3.1",
     "commander": "^14.0.3"
   },
   "devDependencies": {
@@ -51,8 +52,8 @@
     "eslint": "^10.3.0",
     "globals": "^17.6.0",
     "jiti": "^2.7.0",
-    "tsx": "^4.21.0",
     "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.2"
   }
