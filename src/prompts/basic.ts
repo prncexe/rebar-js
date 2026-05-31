@@ -24,7 +24,7 @@ export async function choosePackageManager(): Promise<pkgmanager> {
         name: 'pnpm',
         value: 'pnpm',
         description: 'Fast, disk-space efficient package manager',
-        disabled: "(not supported — pnpm install --ignore-scripts breaks builds)",
+        // disabled: "(not supported — pnpm install --ignore-scripts breaks builds)",
       },
     ],
   });
@@ -38,7 +38,7 @@ export async function chooseFramework(manager: pkgmanager): Promise<framework> {
         name: 'Next.js',
         value: 'nextjs',
         description: 'React framework with SSR, app router, and more',
-        disabled: manager === 'pnpm' ? "(not recommended with pnpm)" : false,
+        // disabled: manager === 'pnpm' ? "(not recommended with pnpm)" : false,
       },
       {
         name: 'Vite (React)',

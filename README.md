@@ -42,13 +42,13 @@ npx rebar-js start -m npm -f nextjs
 
 | Flag | Values |
 |------|--------|
-| `-m, --packageManager` | `npm` · `yarn` · `bun` |
+| `-m, --packageManager` | `npm` · `yarn` · `bun` . `pnpm`|
 | `-f, --framework` | `nextjs` · `vite` · `express` · `expo` · `electron` |
 
 ## Requirements
 
 - Node.js >= 20
-- npm, yarn, or bun
+- npm, yarn, bun or pnpm
 
 ## License
 
